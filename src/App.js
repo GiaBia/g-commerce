@@ -40,8 +40,9 @@ function App() {
     }
   };
 
-  const login = async () => {
+  const login = async (e) => {
     try {
+      e.preventDefault()
       const user = await signInWithEmailAndPassword(
         auth,
         loginEmail,
