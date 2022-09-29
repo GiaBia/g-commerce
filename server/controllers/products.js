@@ -1,4 +1,5 @@
 const { request } = require("express");
+const { Sequelize } = require("sequelize");
 const db = require('../lib/db')
 
 const mapDbToApiModel = (dbModel) => {
@@ -31,8 +32,8 @@ module.exports = {
             SELECT price, image_url, name, description, size, quantity, products.id, product_inventory.id AS inventory_id 
             FROM products
             inner join product_inventory on product_inventory.product_id = products.id
-		`).then(dbRes => {
-            const resBody = mapDbToApiModel(dbRes[0])
+		`, { type: Sequelize.QueryTypes.SELECT }).then(dbRes => {
+            const resBody = mapDbToApiModel(dbRes)
             res.status(200).send(resBody)
         }).catch(err => {
             console.log('error', err)
@@ -47,11 +48,11 @@ module.exports = {
         FROM products
         inner join product_inventory on product_inventory.product_id = products.id
         WHERE ${id} = products.id
-		`).then(dbRes => {
+		`, { type: Sequelize.QueryTypes.SELECT }).then(dbRes => {
             if (dbRes[0].length === 0) {
                 res.sendStatus(404)
             } else {
-                const resBody = mapDbToApiModel(dbRes[0])
+                const resBody = mapDbToApiModel(dbRes)
                 res.status(200).send(resBody[0])
             }
         }).catch(err => {
