@@ -1,6 +1,7 @@
 const { request } = require("express");
 const { Sequelize } = require("sequelize");
 const db = require('../lib/db')
+const { getShoppingCart } = require('./helpers')
 
 const mapDbToApiModel = (dbModel) => {
     return dbModel.reduce((acc, cartItem) => {
@@ -28,13 +29,7 @@ const mapDbToApiModel = (dbModel) => {
 module.exports = {
     getShoppingCart: (req, res) => {
         //TODO: need to use userId from Firebase auth 
-        db.query(`
-        SELECT cart.id, products.name, products.price, products.image_url, product_inventory.size, product_inventory.id AS inventory_id
-        FROM public.cart
-        inner join product_inventory on cart.inventory_id=product_inventory.id
-       inner join products on product_inventory.product_id= products.id  
-        where cart.user_id = 'dean'
-		`, { type: Sequelize.QueryTypes.SELECT }).then(dbRes => {
+        getShoppingCart('dean').then(dbRes => {
             const resBody = mapDbToApiModel(dbRes)
             res.status(200).send(resBody)
         }).catch(err => {
