@@ -1,28 +1,46 @@
-import './App.css';
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import * as React from 'react';
+import Box from '@mui/material/Box';
+import Toolbar from '@mui/material/Toolbar';
+import CssBaseline from '@mui/material/CssBaseline';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import Checkout from './Views/Checkout'
 import ProductPage from './Views/ProductPage'
 import Login from './Views/Login';
 import OrderHistory from './Views/OrderHistory';
 import ProductsPage from './Views/ProductsPage';
-import Navbar from './components/Navbar';
+import AppNav from './components/AppNav';
 
-function App() {
+function App(props) {
+
   return (
-
-    // creating 4 states to handle thebinformation passed through by the user for auth
     <BrowserRouter>
-      <Navbar />
-      <Routes>
-        <Route path="/login" element={<Login />} />
-        <Route path="/product-page" element={<ProductPage />} />
-        <Route path="/checkout" element={<Checkout />} />
-        <Route path="/products-page" element={<ProductsPage />} />
-        <Route path="/order-history" element={<OrderHistory />} />
-      </Routes>
-    </BrowserRouter>
+      <CssBaseline />
+      <Box sx={{ display: 'flex' }}>
+        <AppNav />
+        <Box component="main" sx={{ p: 3 }}>
+          <Toolbar />
+          <Routes>
+            <Route path="/login" element={<Login />} />
+            <Route path="/checkout" element={<Checkout />} />
+            <Route path="/products" element={<ProductsPage />} />
+            <Route path="/products/:id" element={<ProductPage />} />
+            <Route path="/orders" element={<OrderHistory />} />
+            <Route path="/" element={<Navigate to="/products" />} />
+            <Route path='*'
+              element={
+                <div>
+                  <h2>404 Page not found</h2>
+                </div>
+              }
+            />
 
-  )
+          </Routes>
+        </Box>
+      </Box>
+    </BrowserRouter>
+  );
 }
 
+
 export default App;
+
