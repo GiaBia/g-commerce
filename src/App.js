@@ -5,7 +5,6 @@ import CssBaseline from '@mui/material/CssBaseline';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import './App.css'
 import Checkout from './Views/Checkout'
-import ProductPage from './Views/ProductPage'
 import Login from './Views/Login';
 import OrderHistory from './Views/OrderHistory';
 import ProductsPage from './Views/ProductsPage';
@@ -26,7 +25,7 @@ function App(props) {
               <Route path="/login" element={<Login />} />
               <Route path="/checkout" element={<Checkout />} />
               <Route path="/products" element={<ProductsPage />} />
-              <Route path="/products/:id" element={<ProductPage />} />
+              {/* <Route path="/products/:id" element={<ProductPage />} /> */}
               <Route path="/orders" element={<OrderHistory />} />
               <Route path="/" element={<Navigate to="/products" />} />
               <Route path='*'

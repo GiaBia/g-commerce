@@ -12,6 +12,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
+import ShoppingCart from '@mui/icons-material/ShoppingCart';
 import { Link } from 'react-router-dom'
 
 const drawerWidth = 240;
@@ -29,8 +30,9 @@ const navItems = [
     },
     {
         to: '/checkout',
-        text: 'Checkout',
-        loggedOut: true
+        text: 'Cart',
+        loggedOut: true,
+        icon: ShoppingCart
     },
     {
         to: '/login',
@@ -51,7 +53,7 @@ const AppNav = (props) => {
     const drawer = (
         <Box onClick={handleDrawerToggle} sx={{ textAlign: 'center' }}>
             <Typography variant="h6" sx={{ my: 2 }}>
-                MUI
+                GCommerce
             </Typography>
             <Divider />
             <List>
@@ -60,6 +62,7 @@ const AppNav = (props) => {
                         <Link to={item.to}>
                             <ListItemButton sx={{ textAlign: 'center' }}>
                                 <ListItemText primary={item.text} />
+
                             </ListItemButton>
                         </Link>
                     </ListItem>
@@ -90,14 +93,18 @@ const AppNav = (props) => {
                         component="div"
                         sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
                     >
-                        MUI
+                        GCommerce
                     </Typography>
                     <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
                         {navItems.map((item) => (
                             <Link key={item.to} to={item.to}>
-                                <Button sx={{ color: '#fff' }}>
-                                    {item.text}
-                                </Button>
+                                {item.icon ?
+                                    <IconButton style={{ color: 'inherit' }} size="small" aria-label="checkout">
+                                        <item.icon fontSize="small" />
+                                    </IconButton> : <Button sx={{ color: '#fff' }}>
+                                        {item.text}
+                                    </Button>
+                                }
                             </Link>
                         ))}
                     </Box>
@@ -121,15 +128,6 @@ const AppNav = (props) => {
                 </Drawer>
             </Box>
         </>
-        // <header>
-        //     <nav>
-        //         <Link to="/login"> Login</Link>
-        //         <Link to="/product-page"> Product Page</Link>
-        //         <Link to="/checkout"> Checkout</Link>
-        //         <Link to="/products-page"> Products Page</Link>
-        //         <Link to="/order-history"> Order History</Link>
-        //     </nav>
-        // </header>
     )
 }
 
