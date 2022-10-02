@@ -16,7 +16,7 @@ const products = [{
         id: 2
     },
     ],
-    id: 1
+    id: 8
 }, {
     name: "Skirt",
     imageUrl: 'https://golf.com/wp-content/uploads/2022/05/RLX-Skirt.jpg',
@@ -31,7 +31,7 @@ const products = [{
         id: 2
     },
     ],
-    id: 1
+    id: 7
 }, {
     name: "Skirt",
     imageUrl: 'https://golf.com/wp-content/uploads/2022/05/RLX-Skirt.jpg',
@@ -46,7 +46,7 @@ const products = [{
         id: 2
     },
     ],
-    id: 1
+    id: 6
 }, {
     name: "Skirt",
     imageUrl: 'https://golf.com/wp-content/uploads/2022/05/RLX-Skirt.jpg',
@@ -61,7 +61,7 @@ const products = [{
         id: 2
     },
     ],
-    id: 1
+    id: 5
 }, {
     name: "Skirt",
     imageUrl: 'https://golf.com/wp-content/uploads/2022/05/RLX-Skirt.jpg',
@@ -76,7 +76,7 @@ const products = [{
         id: 2
     },
     ],
-    id: 1
+    id: 4
 }, {
     name: "Skirt",
     imageUrl: 'https://golf.com/wp-content/uploads/2022/05/RLX-Skirt.jpg',
@@ -91,7 +91,7 @@ const products = [{
         id: 2
     },
     ],
-    id: 1
+    id: 3
 }, {
     name: "Skirt",
     imageUrl: 'https://golf.com/wp-content/uploads/2022/05/RLX-Skirt.jpg',
@@ -106,7 +106,7 @@ const products = [{
         id: 2
     },
     ],
-    id: 1
+    id: 2
 }, {
     name: "Skirt",
     imageUrl: 'https://golf.com/wp-content/uploads/2022/05/RLX-Skirt.jpg',
@@ -135,7 +135,7 @@ function ProductsPage() {
         }}>
             {
                 products.map((product) => {
-                    return <ProductCard product={product} />
+                    return <ProductCard key={product.id} product={product} />
 
                 })
             }

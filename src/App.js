@@ -25,7 +25,7 @@ function App(props) {
               <Route path="/login" element={<Login />} />
               <Route path="/checkout" element={<Checkout />} />
               <Route path="/products" element={<ProductsPage />} />
-              {/* <Route path="/products/:id" element={<ProductPage />} /> */}
+              <Route path="/products/:id" element={<ProductsPage />} />
               <Route path="/orders" element={<OrderHistory />} />
               <Route path="/" element={<Navigate to="/products" />} />
               <Route path='*'

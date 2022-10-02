@@ -7,3 +7,9 @@ a:active {
   color: inherit;
   text-decoration: inherit;
 }
+
+html,
+body,
+main {
+  width: 100%;
+}

@@ -99,7 +99,7 @@ export default function ProductCard({ product }) {
                                     label="Size"
                                 >{
                                         product.inventory.map((item) => {
-                                            return <MenuItem value={item.id}>{item.size}</MenuItem>
+                                            return <MenuItem key={item.id} value={item.id}>{item.size}</MenuItem>
 
                                         })
                                     }
