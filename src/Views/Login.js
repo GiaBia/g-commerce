@@ -1,16 +1,20 @@
-import React from 'react'
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react'
+import Box from '@mui/material/Box';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import grey from '@mui/material/colors/grey';
 import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut } from 'firebase/auth'
 import { auth } from '../firebase-config'
 
 const Login = () => {
 
-    const [registerEmail, setRegisterEmail] = useState("");
-    const [registerPassword, setRegisterPassword] = useState("");
-    const [loginEmail, setLoginEmail] = useState("");
-    const [loginPassword, setLoginPassword] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
 
     const [user, setUser] = useState({});
+
+    const [isNewUser, setIsNewUser] = useState(false);
 
     useEffect(() => {
         //ln17 is very similar to useState. It is a hook that passes auth and recieves a callback func (currentUser) every time they change who's logged in
@@ -24,91 +28,83 @@ const Login = () => {
 
 
     //These functions will mostly return a promise when dealing with firebase. You can approach two methods; .then and .catch, or async await
-    const register = async (event) => {
+    const onSubmit = async (event) => {
         event.preventDefault();
         try {
-            const user = await createUserWithEmailAndPassword(
-                auth,
-                registerEmail,
-                registerPassword
-            );
-            console.log(user)
-            //This is returning a promise and the await will add the new user to our database and will also log you in. The user information will also be stored in this variable
+            if (isNewUser) {
+                await createUserWithEmailAndPassword(
+                    auth,
+                    email,
+                    password
+                )
+            } else {
+                await signInWithEmailAndPassword(
+                    auth,
+                    email,
+                    password
+                )
+            }
         } catch (error) {
             console.log(error.message);
         }
     };
-
-    const login = async (e) => {
-        try {
-            e.preventDefault()
-            const user = await signInWithEmailAndPassword(
-                auth,
-                loginEmail,
-                loginPassword
-            );
-            console.log(user)
-            //This is returning a promise and the await will add the new user to our database and will also log you in. The user information will also be stored in this variable
-        } catch (error) {
-            console.log(error.message);
-        }
-    };
-
 
     const logout = async () => {
-
         await signOut(auth);
     }
     return (
-        <div className="App">
-            <div>
-                <form name='resgisterUSer' onSubmit={register}>
-                    <h3> Register User</h3>
-                    <input placeholder='Email...'
-                        type='email'
-                        value={registerEmail}
-                        onChange={(event) => {
-                            setRegisterEmail(event.target.value);
-                        }}
-                    />
-                    <input placeholder='Password...'
-                        type='password'
-                        onChange={(event) => {
-                            setRegisterPassword(event.target.value);
-                        }}
-                    />
+        <Box sx={{
+            display: 'flex',
+            justifyContent: 'space-around',
+            alignItems: 'center',
+            flexDirection: 'column',
+            gap: '24px'
+        }}>
+            <Box onSubmit={onSubmit}
+                component="form"
+                sx={{
+                    '& > :not(style)': { m: 1 },
+                }}
+                autoComplete="off"
+            >
+                <Typography gutterBottom variant="h4" component="div">
+                    {isNewUser ? 'Create User' : 'Login'}
+                </Typography>
+                <TextField
+                    id="email"
+                    label="Email"
+                    variant="outlined"
+                    type='email'
+                    required
+                    value={email}
+                    onChange={(event) => {
+                        setEmail(event.target.value);
+                    }} />
 
-                    <button>Create User</button>
-                </form>
-            </div>
+                <TextField
+                    id="password"
+                    label="Password"
+                    variant="outlined"
+                    type='password'
+                    required
+                    value={password}
+                    onChange={(event) => {
+                        setPassword(event.target.value);
+                    }} />
+                <Box sx={{
+                    display: 'flex', justifyContent: 'end',
+                }}>
+                    <Button onClick={() => { setIsNewUser(!isNewUser) }} sx={{ color: grey[500] }}>{isNewUser ? 'Login' : 'Create User'}</Button>
+                    <Button type="submit" variant="contained">{isNewUser ? 'Create User' : 'Login'}</Button>
+                </Box>
+            </Box >
 
-            <div>
-                <form name='Login' onSubmit={login}>
-                    <h3> Login</h3>
-                    <input placeholder='Email...'
-                        type='email'
-                        value={loginEmail}
-                        onChange={(event) => {
-                            setLoginEmail(event.target.value);
-                        }}
-                    />
-                    <input placeholder='Password...'
-                        type='password'
-                        onChange={(event) => {
-                            setLoginPassword(event.target.value);
-                        }}
-                    />
-
-                    <button> Login</button>
-                </form>
-            </div>
-
-            <h4>User Logged In:</h4>
+            {/* <h4>User Logged In:</h4>
             {user.email}
             <form name='signOut' onSubmit={logout}>
                 <button>Sign Out</button>
-            </form>
-        </div>
+            </form> */}
+        </Box>
     )
 }
 
