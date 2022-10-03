@@ -34,7 +34,7 @@ module.exports = {
         const { id } = req.params;
         db.query(`
         delete from cart
-        where ${id} = id and ${userId} = user_id
+        where ${id} = inventory_id and ${userId} = user_id
         `, { type: Sequelize.QueryTypes.DELETE }).then(dbRes => res.status(200).send(dbRes)).catch(err => {
             console.log('error', err)
             res.sendStatus(500)

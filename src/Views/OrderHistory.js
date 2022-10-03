@@ -1,59 +1,13 @@
 import React from 'react'
 import OrderCard from '../components/OrderCard'
 import Box from '@mui/material/Box';
+import { useSelector } from 'react-redux'
 
 
-const orders = [{
-    id: 1,
-    createdAt: '2022-02-22',
-    subtotal: 300.3,
-    tax: 90,
-    total: 390.3,
-    items: [{
-        price: 10,
-        imageUrl: 'https://golf.com/wp-content/uploads/2022/05/RLX-Skirt.jpg',
-        name: 'Skirt',
-        size: 'M',
-        quantity: 4,
-        productId: 2,
-        inventoryId: 4,
-    }, {
-        price: 12.93,
-        imageUrl: 'https://golf.com/wp-content/uploads/2022/05/RLX-Skirt.jpg',
-        name: 'Skirt',
-        size: 'M',
-        quantity: 4,
-        productId: 2,
-        inventoryId: 4,
-    }]
-}, {
-    id: 2,
-    createdAt: '2022-9-22',
-    subtotal: 300.3,
-    tax: 90,
-    total: 390.3,
-    items: [{
-        price: 10,
-        imageUrl: 'https://golf.com/wp-content/uploads/2022/05/RLX-Skirt.jpg',
-        name: 'Skirt',
-        size: 'M',
-        quantity: 4,
-        productId: 2,
-        inventoryId: 4,
-    }, {
-        price: 12.93,
-        imageUrl: 'https://golf.com/wp-content/uploads/2022/05/RLX-Skirt.jpg',
-        name: 'Skirt',
-        size: 'M',
-        quantity: 4,
-        productId: 2,
-        inventoryId: 4,
-    }]
-}]
 
 
 function OrderHistory() {
-
+    const orders = useSelector(state => state.orders)
     return (
         <Box sx={{
             display: 'flex',

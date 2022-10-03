@@ -94,7 +94,7 @@ const Login = () => {
                 <Box sx={{
                     display: 'flex', justifyContent: 'end',
                 }}>
-                    <Button onClick={() => { setIsNewUser(!isNewUser) }} sx={{ color: grey[500] }}>{isNewUser ? 'Login' : 'Create User'}</Button>
+                    <Button onClick={() => { setIsNewUser(!isNewUser) }} sx={{ color: grey[500], marginRight: 10 }}>{isNewUser ? 'Login' : 'Create User'}</Button>
                     <Button type="submit" variant="contained">{isNewUser ? 'Create User' : 'Login'}</Button>
                 </Box>
             </Box >

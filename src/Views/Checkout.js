@@ -6,39 +6,12 @@ import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import CartItemCard from '../components/CartItemCard'
+import { useSelector } from 'react-redux'
 
 
-const shoppingCart = [{
 
-    itemIds: [],
-    name: 'Skirt',
-    price: 23.99,
-    imageUrl: 'https://golf.com/wp-content/uploads/2022/05/RLX-Skirt.jpg',
-    size: "L",
-    inventoryId: 3,
-    quantity: 5,
-},
-{
-    itemIds: [],
-    name: 'Skirt',
-    price: 23.99,
-    imageUrl: 'https://golf.com/wp-content/uploads/2022/05/RLX-Skirt.jpg',
-    size: "M",
-    inventoryId: 2,
-    quantity: 5,
-},
-{
-    itemIds: [],
-    name: 'Skirt',
-    price: 23.99,
-    imageUrl: 'https://golf.com/wp-content/uploads/2022/05/RLX-Skirt.jpg',
-    size: "S",
-    inventoryId: 1,
-    quantity: 5,
-}
-]
 const Checkout = () => {
-
+    const shoppingCart = useSelector(state => state.shoppingCart)
     const subtotal = shoppingCart.reduce((subtotal, cartItem) => {
         subtotal += cartItem.price * cartItem.quantity
         return subtotal

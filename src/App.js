@@ -4,10 +4,10 @@ import Toolbar from '@mui/material/Toolbar';
 import CssBaseline from '@mui/material/CssBaseline';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import './App.css'
-import Checkout from './Views/Checkout'
-import Login from './Views/Login';
-import OrderHistory from './Views/OrderHistory';
-import ProductsPage from './Views/ProductsPage';
+import Checkout from './views/Checkout'
+import Login from './views/Login';
+import OrderHistory from './views/OrderHistory';
+import ProductsPage from './views/ProductsPage';
 import AppNav from './components/AppNav';
 
 function App(props) {
