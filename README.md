@@ -16,4 +16,4 @@ You may also see any lint errors in the console.
 
 ### `npm server`
 
-Launches the server.
+Launches the server
