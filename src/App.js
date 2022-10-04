@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -10,37 +10,51 @@ import OrderHistory from './views/OrderHistory';
 import ProductsPage from './views/ProductsPage';
 import AppNav from './components/AppNav';
 import AppSnackbar from './components/AppSnackbar';
+import { onAuthStateChanged } from 'firebase/auth'
+import { auth } from './firebase-config'
 
 function App(props) {
+  const [loadingUser, setLoadingUser] = React.useState(true);
+
+  useEffect(() => {
+    onAuthStateChanged(auth, (currentUser) => {
+      setLoadingUser(false);
+    })
+  }, [])
+
   return (
     <>
-      <CssBaseline />
+      {loadingUser ? (<> </>) : (
+        <>
+          <CssBaseline />
 
-      <BrowserRouter>
-        <Box sx={{ display: 'flex' }}>
-          <AppNav />
-          <Box component="main" sx={{ p: 3 }}>
-            <Toolbar />
-            <Routes>
-              <Route path="/login" element={<Login />} />
-              <Route path="/checkout" element={<Checkout />} />
-              <Route path="/products" element={<ProductsPage />} />
-              <Route path="/products/:id" element={<ProductsPage />} />
-              <Route path="/orders" element={<OrderHistory />} />
-              <Route path="/" element={<Navigate to="/products" />} />
-              <Route path='*'
-                element={
-                  <div>
-                    <h2>404 Page not found</h2>
-                  </div>
-                }
-              />
+          <BrowserRouter>
+            <Box sx={{ display: 'flex' }}>
+              <AppNav />
+              <Box component="main" sx={{ p: 3 }}>
+                <Toolbar />
+                <Routes>
+                  <Route path="/login" element={<Login />} />
+                  <Route path="/checkout" element={<Checkout />} />
+                  <Route path="/products" element={<ProductsPage />} />
+                  <Route path="/products/:productId" element={<ProductsPage />} />
+                  <Route path="/orders" element={<OrderHistory />} />
+                  <Route path="/" element={<Navigate to="/products" />} />
+                  <Route path='*'
+                    element={
+                      <div>
+                        <h2>404 Page not found</h2>
+                      </div>
+                    }
+                  />
 
-            </Routes>
-          </Box>
-        </Box>
-      </BrowserRouter>
-      <AppSnackbar />
+                </Routes>
+              </Box>
+            </Box>
+          </BrowserRouter>
+          <AppSnackbar />
+        </>
+      )}
     </>
   );
 }

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
@@ -6,12 +6,26 @@ import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import CartItemCard from '../components/CartItemCard'
-import { useSelector } from 'react-redux'
-
-
+import { useSelector, useDispatch } from 'react-redux'
+import { getCart } from '../store/actions/shoppingCart'
+import { createOrder } from '../store/actions/orders'
+import { useNavigate } from 'react-router-dom';
 
 const Checkout = () => {
     const shoppingCart = useSelector(state => state.shoppingCart)
+    const dispatch = useDispatch()
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        dispatch(getCart())
+    }, [dispatch])
+
+    const createOrderHandler = async () => {
+        if (await dispatch(createOrder())) {
+            navigate('/orders')
+        }
+    }
+
     const subtotal = shoppingCart.reduce((subtotal, cartItem) => {
         subtotal += cartItem.price * cartItem.quantity
         return subtotal
@@ -63,7 +77,9 @@ const Checkout = () => {
                     </Typography>
                 </CardContent>
                 <CardActions sx={{ display: "flex", justifyContent: "end" }}>
-                    <Button size="small">Place Order</Button>
+                    <Button
+                        onClick={createOrderHandler}
+                        size="small">Place Order</Button>
                 </CardActions>
             </Card>
         </Box>

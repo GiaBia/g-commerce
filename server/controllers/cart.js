@@ -19,6 +19,7 @@ module.exports = {
         const userId = req.authenticatedUser.uid
 
         const { inventoryId } = req.body;
+        console.log(req.body)
         db.query(`
         INSERT INTO public.cart(
             inventory_id, user_id)
@@ -34,7 +35,7 @@ module.exports = {
         const { id } = req.params;
         db.query(`
         delete from cart
-        where ${id} = inventory_id and ${userId} = user_id
+        where ${id} = inventory_id and '${userId}' = user_id
         `, { type: Sequelize.QueryTypes.DELETE }).then(dbRes => res.status(200).send(dbRes)).catch(err => {
             console.log('error', err)
             res.sendStatus(500)

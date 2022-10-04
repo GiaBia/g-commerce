@@ -12,6 +12,9 @@ import CardActions from '@mui/material/CardActions';
 import Button from '@mui/material/Button';
 import Modal from '@mui/material/Modal';
 import { CardActionArea } from '@mui/material';
+import { useDispatch } from 'react-redux'
+import { addProductToCart } from '../store/actions/shoppingCart'
+import { useParams, useNavigate, Link } from 'react-router-dom';
 
 const modalStyles = {
     position: 'absolute',
@@ -26,38 +29,54 @@ const modalStyles = {
 };
 
 export default function ProductCard({ product }) {
-    const [showDetails, setShowDetails] = useState(false)
+    const [size, setSize] = useState('')
+    const dispatch = useDispatch()
+    const { productId } = useParams()
+    const navigate = useNavigate()
+
+    const closeModalHandler = () => {
+        navigate('/products')
+    }
+
+    const handleAddToCart = (event) => {
+        console.log('size', size)
+        event.preventDefault()
+        dispatch(addProductToCart(size, product.name))
+    }
+
     return (
         <>
-            <Card sx={{ maxWidth: 345 }} onClick={() => setShowDetails(true)}>
-                <CardActionArea>
-                    <CardMedia
-                        component="img"
-                        height="140"
-                        image={product.imageUrl} //bind this property from product.imageUrl from this image property
+            <Link to={`/products/${product.id}`}>
+                <Card sx={{ maxWidth: 345 }}>
+                    <CardActionArea>
+                        <CardMedia
+                            component="img"
+                            height="140"
+                            image={product.imageUrl} //bind this property from product.imageUrl from this image property
 
-                    />
-                    <CardContent>
-                        <Box sx={{
-                            display: 'flex',
-                            justifyContent: 'space-between',
-                            alignItems: 'baseline'
-                        }}>
-                            <Typography gutterBottom variant="h6" component="div">
-                                {product.name}
-                            </Typography>
-                            <Typography gutterBottom variant="subtitle1" component="div">
-                                ${product.price}
-                            </Typography>
-                        </Box>
+                        />
+                        <CardContent>
+                            <Box sx={{
+                                display: 'flex',
+                                justifyContent: 'space-between',
+                                alignItems: 'baseline'
+                            }}>
+                                <Typography gutterBottom variant="h6" component="div">
+                                    {product.name}
+                                </Typography>
+                                <Typography gutterBottom variant="subtitle1" component="div">
+                                    ${product.price}
+                                </Typography>
+                            </Box>
 
-                    </CardContent>
-                </CardActionArea>
-            </Card>
+                        </CardContent>
+                    </CardActionArea>
+                </Card>
+            </Link>
 
             <Modal
-                open={showDetails}
-                onClose={() => setShowDetails(false)}
+                open={productId === product.id}
+                onClose={closeModalHandler}
             >
                 <Card sx={modalStyles}>
                     <CardMedia
@@ -88,25 +107,28 @@ export default function ProductCard({ product }) {
                             justifyContent: 'space-between',
                             alignItems: 'baseline'
                         }}>
-                            <FormControl sx={{ m: 1, minWidth: 80 }}>
-                                <InputLabel id="size-label">Size</InputLabel>
-                                <Select
-                                    labelId="size-label"
-                                    id="size-select"
+                            <form onSubmit={handleAddToCart}>
+                                <FormControl sx={{ m: 1, minWidth: 80 }}>
+                                    <InputLabel id="size-label">Size</InputLabel>
+                                    <Select required
+                                        value={size}
+                                        onChange={(event) => setSize(event.target.value)}
+                                        labelId="size-label"
+                                        id="size-select"
+                                        autoWidth
+                                        label="Size"
+                                    >{
+                                            product.inventory.map((item) => {
+                                                return <MenuItem key={item.id} value={item.id}>{item.size}</MenuItem>
 
+                                            })
+                                        }
 
-                                    autoWidth
-                                    label="Size"
-                                >{
-                                        product.inventory.map((item) => {
-                                            return <MenuItem key={item.id} value={item.id}>{item.size}</MenuItem>
+                                    </Select>
+                                </FormControl>
 
-                                        })
-                                    }
-
-                                </Select>
-                            </FormControl>
-                            <Button size="small">Add to Cart</Button>
+                                <Button type='submit' size="small">Add to Cart</Button>
+                            </form>
                         </Box>
                     </CardActions>
                 </Card>

@@ -134,6 +134,7 @@ module.exports = {
             inner join product_inventory on product_inventory.id = order_products_mapping.product_inventory_id
             inner join products on products.id = product_inventory.product_id
             WHERE '${userId}' = orders.user_id
+            ORDER BY orders.created_at DESC
         `, { type: Sequelize.QueryTypes.SELECT }).then(dbRes => {
             const resBody = mapDbToApiModel(dbRes)
             res.status(200).send(resBody)

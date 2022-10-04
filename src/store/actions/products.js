@@ -1,5 +1,4 @@
 import { errorMessage } from "./message"
-import { auth } from '../../firebase-config'
 
 export const loadProducts = (products) => {
     return {
@@ -10,15 +9,10 @@ export const loadProducts = (products) => {
 
 export const getProducts = () => async (dispatch) => {
     try {
-        // const authToken = await auth.currentUser.getIdToken()
-        // {
-        //     headers: { Authorization: `Bearer ${authToken}` }
-        // }
         const response = await fetch('http://localhost:5001/products')
 
-        const data = await response.json()
-
         if (response.status === 200) {
+            const data = await response.json()
             dispatch(loadProducts(data))
         } else {
             dispatch(errorMessage(`Error loading products: ${response.statusText}`))

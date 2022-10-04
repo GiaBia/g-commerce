@@ -4,3 +4,10 @@ export const errorMessage = (message) => {
         payload: message
     }
 }
+
+export const successMessage = (message) => {
+    return {
+        type: 'SUCCESS_MESSAGE',
+        payload: message
+    }
+}

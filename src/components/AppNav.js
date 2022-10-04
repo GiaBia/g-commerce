@@ -3,7 +3,6 @@ import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
 import Drawer from '@mui/material/Drawer';
-import IconButton from '@mui/material/IconButton';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
@@ -12,60 +11,47 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
-import ShoppingCart from '@mui/icons-material/ShoppingCart';
 import { Link } from 'react-router-dom'
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../firebase-config";
+import { useSelector, useDispatch } from 'react-redux'
+import { getCart } from '../store/actions/shoppingCart'
+import Badge from '@mui/material/Badge';
+import { styled } from '@mui/material/styles';
+import IconButton from '@mui/material/IconButton';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart'
 
 const drawerWidth = 240;
-const navItems = [
 
-    {
-        to: '/products',
-        text: 'Products',
-        loggedOut: true,
-        loggedIn: true
+const StyledBadge = styled(Badge)(({ theme }) => ({
+    '& .MuiBadge-badge': {
+        right: -5,
+        top: 10,
+        border: `2px solid ${theme.palette.primary.main}`,
+        padding: '0 4px',
     },
-    {
-        to: '/orders',
-        text: 'Orders',
-        loggedOut: false,
-        loggedIn: true
-    },
-    {
-        to: '/checkout',
-        text: 'Cart',
-        loggedOut: false,
-        icon: ShoppingCart,
-        loggedIn: true
-    },
-    {
-        to: '/login',
-        text: 'Login',
-        loggedOut: true,
-        loggedIn: false
-    },
-    {
-        to: '/login',
-        text: 'Logout',
-        loggedOut: false,
-        loggedIn: true
-    }
-];
-
+}));
 
 const AppNav = (props) => {
     const { window } = props;
     const [mobileOpen, setMobileOpen] = React.useState(false);
     const [user, setUser] = useState(null);
+    const shoppingCart = useSelector(state => state.shoppingCart)
+    const dispatch = useDispatch()
 
-
+    useEffect(() => {
+        dispatch(getCart())
+    }, [dispatch])
 
     useEffect(() => {
         onAuthStateChanged(auth, (currentUser) => {
             setUser(currentUser || null);
         })
     }, [])
+
+    const shoppingCartSize = shoppingCart.reduce((acc, item) => {
+        return acc + item.quantity
+    }, 0)
 
     const handleDrawerToggle = () => {
         setMobileOpen(!mobileOpen);
@@ -78,16 +64,41 @@ const AppNav = (props) => {
             </Typography>
             <Divider />
             <List>
-                {navItems.map((item) => (
-                    <ListItem key={item.text} disablePadding>
-                        <Link to={item.to}>
-                            <ListItemButton sx={{ textAlign: 'center' }}>
-                                <ListItemText primary={item.text} />
-
-                            </ListItemButton>
-                        </Link>
-                    </ListItem>
-                ))}
+                <ListItem disablePadding>
+                    <Link to='/products'>
+                        <ListItemButton sx={{ textAlign: 'center' }}>
+                            <ListItemText primary='Products' />
+                        </ListItemButton>
+                    </Link>
+                </ListItem>
+                {user && <ListItem disablePadding>
+                    <Link to='/orders'>
+                        <ListItemButton sx={{ textAlign: 'center' }}>
+                            <ListItemText primary='Orders' />
+                        </ListItemButton>
+                    </Link>
+                </ListItem>}
+                {user && <ListItem disablePadding>
+                    <Link to='/checkout'>
+                        <ListItemButton sx={{ textAlign: 'center' }}>
+                            <ListItemText primary='Checkout' />
+                        </ListItemButton>
+                    </Link>
+                </ListItem>}
+                {!user && <ListItem disablePadding>
+                    <Link to='/login'>
+                        <ListItemButton sx={{ textAlign: 'center' }}>
+                            <ListItemText primary='Login' />
+                        </ListItemButton>
+                    </Link>
+                </ListItem>}
+                {user && <ListItem disablePadding>
+                    <Link to='/login'>
+                        <ListItemButton sx={{ textAlign: 'center' }}>
+                            <ListItemText primary='Logout' />
+                        </ListItemButton>
+                    </Link>
+                </ListItem>}
             </List>
         </Box>
     );
@@ -117,23 +128,34 @@ const AppNav = (props) => {
                         GCommerce
                     </Typography>
                     <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
-                        {navItems.filter((item) => {
-                            if (user) {
-                                return item.loggedIn
-                            } else {
-                                return item.loggedOut
-                            }
-                        }).map((item) => (
-                            <Link key={item.text} to={item.to}>
-                                {item.icon ?
-                                    <IconButton style={{ color: 'inherit' }} size="small" aria-label="checkout">
-                                        <item.icon fontSize="small" />
-                                    </IconButton> : <Button sx={{ color: '#fff' }}>
-                                        {item.text}
-                                    </Button>
-                                }
-                            </Link>
-                        ))}
+                        <Link to='/products'>
+                            <Button sx={{ color: '#fff' }}>
+                                Products
+                            </Button>
+                        </Link>
+                        {user && <Link to='/orders'>
+                            <Button sx={{ color: '#fff' }}>
+                                Orders
+                            </Button>
+                        </Link>}
+                        {user && <Link to='/checkout'>
+                            <IconButton style={{ color: 'inherit', marginRight: 10 }} aria-label="cart" fontSize="small">
+                                <StyledBadge badgeContent={shoppingCartSize} color="secondary">
+                                    <ShoppingCartIcon fontSize="small" />
+                                </StyledBadge>
+                            </IconButton>
+                        </Link>}
+                        {!user && <Link to='/login'>
+                            <Button sx={{ color: '#fff' }}>
+                                Login
+                            </Button>
+
+                        </Link>}
+                        {user && <Link to='/login'>
+                            <Button sx={{ color: '#fff' }}>
+                                Logout
+                            </Button>
+                        </Link>}
                     </Box>
                 </Toolbar>
             </AppBar>

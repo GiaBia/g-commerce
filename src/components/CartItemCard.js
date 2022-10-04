@@ -7,9 +7,17 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import CardActions from '@mui/material/CardActions';
+import { removeProductFromCart } from '../store/actions/shoppingCart'
+import { useDispatch } from 'react-redux'
 
 
 function CartItemCard({ cartItem }) {
+    const dispatch = useDispatch()
+
+    const removeProductHandler = () => {
+        dispatch(removeProductFromCart(cartItem.inventoryId, cartItem.name))
+    }
+
     return (
         <Card sx={{
             maxWidth: 500,
@@ -48,7 +56,7 @@ function CartItemCard({ cartItem }) {
                     alignItems: 'baseline'
                 }}>
 
-                    <IconButton aria-label="delete" size="large">
+                    <IconButton onClick={removeProductHandler} aria-label="delete" size="large">
                         <DeleteIcon />
                     </IconButton>
                 </Box>
