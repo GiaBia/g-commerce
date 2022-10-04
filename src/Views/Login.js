@@ -6,21 +6,23 @@ import Typography from '@mui/material/Typography';
 import grey from '@mui/material/colors/grey';
 import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut } from 'firebase/auth'
 import { auth } from '../firebase-config'
+import { useNavigate } from 'react-router-dom'
 
 const Login = () => {
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-
-    const [user, setUser] = useState({});
-
     const [isNewUser, setIsNewUser] = useState(false);
+    const navigate = useNavigate();
+
+    if (auth.currentUser) {
+        signOut(auth);
+    }
 
     useEffect(() => {
-        //ln17 is very similar to useState. It is a hook that passes auth and recieves a callback func (currentUser) every time they change who's logged in
         onAuthStateChanged(auth, (currentUser) => {
             if (currentUser) {
-                setUser(currentUser);
+                navigate('/products')
             }
         })
     }, [])
@@ -49,9 +51,8 @@ const Login = () => {
         }
     };
 
-    const logout = async () => {
-        await signOut(auth);
-    }
+
+
     return (
         <Box sx={{
             display: 'flex',
@@ -99,11 +100,7 @@ const Login = () => {
                 </Box>
             </Box >
 
-            {/* <h4>User Logged In:</h4>
-            {user.email}
-            <form name='signOut' onSubmit={logout}>
-                <button>Sign Out</button>
-            </form> */}
+
         </Box>
     )
 }

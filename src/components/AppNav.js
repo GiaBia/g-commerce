@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
@@ -14,6 +14,8 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import ShoppingCart from '@mui/icons-material/ShoppingCart';
 import { Link } from 'react-router-dom'
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "../firebase-config";
 
 const drawerWidth = 240;
 const navItems = [
@@ -21,23 +23,33 @@ const navItems = [
     {
         to: '/products',
         text: 'Products',
-        loggedOut: true
+        loggedOut: true,
+        loggedIn: true
     },
     {
         to: '/orders',
         text: 'Orders',
-        loggedOut: true
+        loggedOut: false,
+        loggedIn: true
     },
     {
         to: '/checkout',
         text: 'Cart',
-        loggedOut: true,
-        icon: ShoppingCart
+        loggedOut: false,
+        icon: ShoppingCart,
+        loggedIn: true
     },
     {
         to: '/login',
         text: 'Login',
-        loggedOut: true
+        loggedOut: true,
+        loggedIn: false
+    },
+    {
+        to: '/login',
+        text: 'Logout',
+        loggedOut: false,
+        loggedIn: true
     }
 ];
 
@@ -45,6 +57,15 @@ const navItems = [
 const AppNav = (props) => {
     const { window } = props;
     const [mobileOpen, setMobileOpen] = React.useState(false);
+    const [user, setUser] = useState(null);
+
+
+
+    useEffect(() => {
+        onAuthStateChanged(auth, (currentUser) => {
+            setUser(currentUser || null);
+        })
+    }, [])
 
     const handleDrawerToggle = () => {
         setMobileOpen(!mobileOpen);
@@ -58,7 +79,7 @@ const AppNav = (props) => {
             <Divider />
             <List>
                 {navItems.map((item) => (
-                    <ListItem key={item.to} disablePadding>
+                    <ListItem key={item.text} disablePadding>
                         <Link to={item.to}>
                             <ListItemButton sx={{ textAlign: 'center' }}>
                                 <ListItemText primary={item.text} />
@@ -96,8 +117,14 @@ const AppNav = (props) => {
                         GCommerce
                     </Typography>
                     <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
-                        {navItems.map((item) => (
-                            <Link key={item.to} to={item.to}>
+                        {navItems.filter((item) => {
+                            if (user) {
+                                return item.loggedIn
+                            } else {
+                                return item.loggedOut
+                            }
+                        }).map((item) => (
+                            <Link key={item.text} to={item.to}>
                                 {item.icon ?
                                     <IconButton style={{ color: 'inherit' }} size="small" aria-label="checkout">
                                         <item.icon fontSize="small" />

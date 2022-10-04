@@ -20,7 +20,7 @@ const { createOrder, getOrderHistory } = require('./controllers/orders')
 const { getProducts, getProduct } = require('./controllers/products')
 const { getShoppingCart, addToCart, removeFromCart } = require('./controllers/cart')
 app.use(cors());
-app.use(authMiddleWare.authn(firebaseAuth));
+// app.use(authMiddleWare.authn(firebaseAuth));
 
 app.use(express.json());
 
