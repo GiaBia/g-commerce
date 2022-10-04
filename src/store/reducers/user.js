@@ -1,4 +1,4 @@
-const initialState = null;
+const initialState = null
 
 export const userReducer = (state = initialState, action) => {
     switch (action.type) {
@@ -7,6 +7,6 @@ export const userReducer = (state = initialState, action) => {
         case 'LOGOUT':
             return null
         default:
-            return state;
+            return state
     }
 }

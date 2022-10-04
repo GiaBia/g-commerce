@@ -1,9 +1,9 @@
-import { errorMessage } from "./message"
+import { errorMessage } from './message'
 
 export const loadProducts = (products) => {
     return {
         type: 'LOAD_PRODUCTS',
-        payload: products
+        payload: products,
     }
 }
 
@@ -15,12 +15,12 @@ export const getProducts = () => async (dispatch) => {
             const data = await response.json()
             dispatch(loadProducts(data))
         } else {
-            dispatch(errorMessage(`Error loading products: ${response.statusText}`))
+            dispatch(
+                errorMessage(`Error loading products: ${response.statusText}`)
+            )
         }
-    }
-    catch (err) {
+    } catch (err) {
         console.log(err)
         dispatch(errorMessage('Error loading products'))
     }
 }
-

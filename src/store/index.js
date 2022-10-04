@@ -1,4 +1,3 @@
-
 import { configureStore } from '@reduxjs/toolkit'
 import { productsReducer } from './reducers/products'
 import { ordersReducer } from './reducers/orders'
@@ -12,9 +11,9 @@ const store = configureStore({
         shoppingCart: shoppingCartReducer,
         orders: ordersReducer,
         user: userReducer,
-        message: messageReducer
-    }
+        message: messageReducer,
+    },
 })
-//this now creates our store 
+//this now creates our store
 
-export default store;
+export default store

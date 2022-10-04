@@ -5,6 +5,6 @@ export const ordersReducer = (state = initialState, action) => {
         case 'LOAD_ORDERS':
             return action.payload
         default:
-            return state;
+            return state
     }
 }
