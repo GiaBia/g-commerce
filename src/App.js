@@ -9,9 +9,9 @@ import Login from './views/Login';
 import OrderHistory from './views/OrderHistory';
 import ProductsPage from './views/ProductsPage';
 import AppNav from './components/AppNav';
+import AppSnackbar from './components/AppSnackbar';
 
 function App(props) {
-
   return (
     <>
       <CssBaseline />
@@ -40,6 +40,7 @@ function App(props) {
           </Box>
         </Box>
       </BrowserRouter>
+      <AppSnackbar />
     </>
   );
 }

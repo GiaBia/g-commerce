@@ -7,6 +7,8 @@ import grey from '@mui/material/colors/grey';
 import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut } from 'firebase/auth'
 import { auth } from '../firebase-config'
 import { useNavigate } from 'react-router-dom'
+import { useDispatch } from 'react-redux';
+import { errorMessage } from '../store/actions/message'
 
 const Login = () => {
 
@@ -14,6 +16,7 @@ const Login = () => {
     const [password, setPassword] = useState("");
     const [isNewUser, setIsNewUser] = useState(false);
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     if (auth.currentUser) {
         signOut(auth);
@@ -27,9 +30,6 @@ const Login = () => {
         })
     }, [])
 
-
-
-    //These functions will mostly return a promise when dealing with firebase. You can approach two methods; .then and .catch, or async await
     const onSubmit = async (event) => {
         event.preventDefault();
         try {
@@ -48,10 +48,9 @@ const Login = () => {
             }
         } catch (error) {
             console.log(error.message);
+            dispatch(errorMessage(error.message))
         }
     };
-
-
 
     return (
         <Box sx={{
@@ -95,7 +94,7 @@ const Login = () => {
                 <Box sx={{
                     display: 'flex', justifyContent: 'end',
                 }}>
-                    <Button onClick={() => { setIsNewUser(!isNewUser) }} sx={{ color: grey[500], marginRight: 10 }}>{isNewUser ? 'Login' : 'Create User'}</Button>
+                    <Button onClick={() => { setIsNewUser(!isNewUser) }} sx={{ color: grey[500], marginRight: 2 }}>{isNewUser ? 'Login' : 'Create User'}</Button>
                     <Button type="submit" variant="contained">{isNewUser ? 'Create User' : 'Login'}</Button>
                 </Box>
             </Box >

@@ -20,12 +20,11 @@ function ProductsPage() {
             display: 'flex',
             alignItems: 'baseline',
             flexWrap: 'wrap',
-            gap: '24px'
+            gap: '24px',
         }}>
             {
                 products.map((product) => {
                     return <ProductCard key={product.id} product={product} />
-
                 })
             }
         </Box>

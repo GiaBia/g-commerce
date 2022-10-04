@@ -15,22 +15,19 @@ const { getAuth } = require("firebase-admin/auth");
 const firebaseAuth = getAuth();
 const authMiddleWare = require("firebase-auth-express-middleware");
 
-
 const { createOrder, getOrderHistory } = require('./controllers/orders')
 const { getProducts, getProduct } = require('./controllers/products')
 const { getShoppingCart, addToCart, removeFromCart } = require('./controllers/cart')
 app.use(cors());
-// app.use(authMiddleWare.authn(firebaseAuth));
-
 app.use(express.json());
 
-app.get('/orders', getOrderHistory)
-app.post('/orders', createOrder)
 app.get('/products', getProducts)
 app.get('/products/:id', getProduct)
-app.get('/cart', getShoppingCart)
-app.delete('/cart/:id', removeFromCart)
-app.post('/cart', addToCart)
+app.get('/orders', authMiddleWare.authn(firebaseAuth), getOrderHistory)
+app.post('/orders', authMiddleWare.authn(firebaseAuth), createOrder)
+app.get('/cart', authMiddleWare.authn(firebaseAuth), getShoppingCart)
+app.delete('/cart/:id', authMiddleWare.authn(firebaseAuth), removeFromCart)
+app.post('/cart', authMiddleWare.authn(firebaseAuth), addToCart)
 
 // This displays message that the server running and listening to specified port
 app.listen(port, () => console.log(`Listening on port ${port}`)); //Line 6
