@@ -1,6 +1,6 @@
 ## GCommerce
 
-A storefront app.
+A storefront app
 
 ## Available Scripts
 
