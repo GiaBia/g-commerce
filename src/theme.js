@@ -12,7 +12,7 @@ export const themeOptions = {
             contrastText: '#f4bfdb',
         },
         background: {
-            default: '#ffe9f3',
+            default: '#fefefe',
         },
         success: {
             main: '#87baab',

@@ -9,8 +9,11 @@ function ProductsPage() {
     const dispatch = useDispatch()
 
     useEffect(() => {
+        console.count('ProductPage: getProducts')
         dispatch(getProducts())
     }, [dispatch])
+
+    console.count('ProductPage')
 
     return (
         <Box
@@ -19,6 +22,7 @@ function ProductsPage() {
                 alignItems: 'baseline',
                 flexWrap: 'wrap',
                 gap: '24px',
+                justifyContent: 'center',
             }}
         >
             {products.map((product) => {

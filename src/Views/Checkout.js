@@ -5,6 +5,8 @@ import CardActions from '@mui/material/CardActions'
 import CardContent from '@mui/material/CardContent'
 import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
+import { TransitionGroup } from 'react-transition-group'
+import Collapse from '@mui/material/Collapse'
 import CartItemCard from '../components/CartItemCard'
 import { useSelector, useDispatch } from 'react-redux'
 import { getCart } from '../store/actions/shoppingCart'
@@ -35,9 +37,13 @@ const Checkout = () => {
     const total = subtotal + tax
 
     if (isLoading) {
-        return <div>Loading...</div>
+        return <div style={{ textAlign: 'center' }}>Loading...</div>
     } else if (shoppingCart.length === 0) {
-        return <div>Your shopping cart is empty...</div>
+        return (
+            <div style={{ textAlign: 'center' }}>
+                Your shopping cart is empty...
+            </div>
+        )
     }
 
     return (
@@ -50,15 +56,23 @@ const Checkout = () => {
                 gap: '24px',
             }}
         >
-            {shoppingCart.map((cartItem) => {
-                return (
-                    <CartItemCard
-                        key={cartItem.inventoryId}
-                        cartItem={cartItem}
-                    />
-                )
-            })}
-
+            <TransitionGroup
+                style={{
+                    display: 'flex',
+                    justifyContent: 'space-around',
+                    alignItems: 'center',
+                    flexDirection: 'column',
+                    gap: '24px',
+                }}
+            >
+                {shoppingCart.map((cartItem) => {
+                    return (
+                        <Collapse key={cartItem.inventoryId}>
+                            <CartItemCard cartItem={cartItem} />
+                        </Collapse>
+                    )
+                })}
+            </TransitionGroup>
             <Card
                 sx={{
                     maxWidth: '500px',

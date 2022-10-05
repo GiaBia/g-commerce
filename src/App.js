@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import Box from '@mui/material/Box'
 import Toolbar from '@mui/material/Toolbar'
 import CssBaseline from '@mui/material/CssBaseline'
@@ -10,8 +10,6 @@ import OrderHistory from './views/OrderHistory'
 import ProductsPage from './views/ProductsPage'
 import AppNav from './components/AppNav'
 import AppSnackbar from './components/AppSnackbar'
-import { onAuthStateChanged } from 'firebase/auth'
-import { auth } from './firebase-config'
 import { useLoggedIn } from './hooks/userAuth'
 
 function App(props) {

@@ -9,10 +9,11 @@ import Typography from '@mui/material/Typography'
 import CardActions from '@mui/material/CardActions'
 import { removeProductFromCart } from '../store/actions/shoppingCart'
 import { useDispatch } from 'react-redux'
+import { Link } from 'react-router-dom'
 
 function CartItemCard({ cartItem }) {
     const dispatch = useDispatch()
-
+    console.log(cartItem)
     const removeProductHandler = () => {
         dispatch(removeProductFromCart(cartItem.inventoryId, cartItem.name))
     }
@@ -20,11 +21,13 @@ function CartItemCard({ cartItem }) {
     return (
         <Card
             sx={{
-                maxWidth: '500px',
-                minWidth: '350px',
+                maxWidth: '350px',
+                minWidth: '300px',
             }}
         >
-            <CardMedia component="img" image={cartItem.imageUrl} />
+            <Link to={`/products/${cartItem.productId}`}>
+                <CardMedia component="img" image={cartItem.imageUrl} />
+            </Link>
             <CardContent
                 sx={{
                     paddingBottom: 0,

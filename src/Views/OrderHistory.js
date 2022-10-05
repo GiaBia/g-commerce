@@ -14,9 +14,9 @@ function OrderHistory() {
     }, [dispatch])
 
     if (isLoading) {
-        return <div>Loading...</div>
+        return <div style={{ textAlign: 'center' }}>Loading...</div>
     } else if (orders.length === 0) {
-        return <div>No orders found</div>
+        return <div style={{ textAlign: 'center' }}>No orders found</div>
     }
 
     return (

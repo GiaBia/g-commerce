@@ -15,6 +15,7 @@ const mapDbToApiModel = (dbModel) => {
                 imageUrl: cartItem.image_url,
                 size: cartItem.size,
                 inventoryId: cartItem.inventory_id,
+                productId: cartItem.product_id,
                 quantity: 0,
             }
             acc.push(resultCartItem)
@@ -31,10 +32,10 @@ module.exports = {
         return db
             .query(
                 `
-        SELECT cart.id, products.name, products.price, products.image_url, product_inventory.size, product_inventory.id AS inventory_id
+        SELECT cart.id, products.name, products.price, products.image_url, product_inventory.size, product_inventory.id AS inventory_id, products.id AS product_id
         FROM public.cart
         inner join product_inventory on cart.inventory_id=product_inventory.id
-       inner join products on product_inventory.product_id= products.id   
+        inner join products on product_inventory.product_id= products.id   
         where cart.user_id = '${userId}'
 		`,
                 { type: Sequelize.QueryTypes.SELECT }
