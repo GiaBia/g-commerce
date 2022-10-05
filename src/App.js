@@ -12,19 +12,14 @@ import AppNav from './components/AppNav'
 import AppSnackbar from './components/AppSnackbar'
 import { onAuthStateChanged } from 'firebase/auth'
 import { auth } from './firebase-config'
+import { useLoggedIn } from './hooks/userAuth'
 
 function App(props) {
-    const [loadingUser, setLoadingUser] = React.useState(true)
-
-    useEffect(() => {
-        onAuthStateChanged(auth, (currentUser) => {
-            setLoadingUser(false)
-        })
-    }, [])
+    const loggedIn = useLoggedIn()
 
     return (
         <>
-            {loadingUser ? (
+            {loggedIn === null ? (
                 <> </>
             ) : (
                 <>

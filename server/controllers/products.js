@@ -11,7 +11,7 @@ const mapDbToApiModel = (dbModel) => {
             resultProduct = {
                 id: product.id,
                 price: product.price,
-                image_url: product.image_url,
+                imageUrl: product.image_url,
                 name: product.name,
                 description: product.description,
                 inventory: [],

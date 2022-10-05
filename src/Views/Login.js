@@ -102,7 +102,7 @@ const Login = () => {
                         onClick={() => {
                             setIsNewUser(!isNewUser)
                         }}
-                        sx={{ color: grey[500], marginRight: 2 }}
+                        sx={{ color: grey[500], marginRight: '12px' }}
                     >
                         {isNewUser ? 'Login' : 'Create User'}
                     </Button>

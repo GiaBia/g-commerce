@@ -7,10 +7,17 @@ import { getOrders } from '../store/actions/orders'
 function OrderHistory() {
     const orders = useSelector((state) => state.orders)
     const dispatch = useDispatch()
+    const [isLoading, setIsLoading] = React.useState(true)
 
     useEffect(() => {
-        dispatch(getOrders())
+        dispatch(getOrders()).then(() => setIsLoading(false))
     }, [dispatch])
+
+    if (isLoading) {
+        return <div>Loading...</div>
+    } else if (orders.length === 0) {
+        return <div>No orders found</div>
+    }
 
     return (
         <Box

@@ -12,14 +12,13 @@ import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
 import Button from '@mui/material/Button'
 import { Link } from 'react-router-dom'
-import { onAuthStateChanged } from 'firebase/auth'
-import { auth } from '../firebase-config'
 import { useSelector, useDispatch } from 'react-redux'
 import { getCart } from '../store/actions/shoppingCart'
 import Badge from '@mui/material/Badge'
 import { styled } from '@mui/material/styles'
 import IconButton from '@mui/material/IconButton'
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart'
+import { useLoggedIn } from '../hooks/userAuth'
 
 const drawerWidth = 240
 
@@ -35,19 +34,15 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
 const AppNav = (props) => {
     const { window } = props
     const [mobileOpen, setMobileOpen] = React.useState(false)
-    const [user, setUser] = useState(null)
     const shoppingCart = useSelector((state) => state.shoppingCart)
     const dispatch = useDispatch()
+    const loggedIn = useLoggedIn()
 
     useEffect(() => {
-        dispatch(getCart())
-    }, [dispatch])
-
-    useEffect(() => {
-        onAuthStateChanged(auth, (currentUser) => {
-            setUser(currentUser || null)
-        })
-    }, [])
+        if (loggedIn) {
+            dispatch(getCart())
+        }
+    }, [dispatch, loggedIn])
 
     const shoppingCartSize = shoppingCart.reduce((acc, item) => {
         return acc + item.quantity
@@ -71,7 +66,7 @@ const AppNav = (props) => {
                         </ListItemButton>
                     </Link>
                 </ListItem>
-                {user && (
+                {loggedIn && (
                     <ListItem disablePadding>
                         <Link to="/orders">
                             <ListItemButton sx={{ textAlign: 'center' }}>
@@ -80,7 +75,7 @@ const AppNav = (props) => {
                         </Link>
                     </ListItem>
                 )}
-                {user && (
+                {loggedIn && (
                     <ListItem disablePadding>
                         <Link to="/checkout">
                             <ListItemButton sx={{ textAlign: 'center' }}>
@@ -89,7 +84,7 @@ const AppNav = (props) => {
                         </Link>
                     </ListItem>
                 )}
-                {!user && (
+                {!loggedIn && (
                     <ListItem disablePadding>
                         <Link to="/login">
                             <ListItemButton sx={{ textAlign: 'center' }}>
@@ -98,7 +93,7 @@ const AppNav = (props) => {
                         </Link>
                     </ListItem>
                 )}
-                {user && (
+                {loggedIn && (
                     <ListItem disablePadding>
                         <Link to="/login">
                             <ListItemButton sx={{ textAlign: 'center' }}>
@@ -113,6 +108,10 @@ const AppNav = (props) => {
 
     const container =
         window !== undefined ? () => window().document.body : undefined
+
+    if (loggedIn === null) {
+        return null
+    }
 
     return (
         <>
@@ -141,17 +140,17 @@ const AppNav = (props) => {
                         <Link to="/products">
                             <Button sx={{ color: '#fff' }}>Products</Button>
                         </Link>
-                        {user && (
+                        {loggedIn && (
                             <Link to="/orders">
                                 <Button sx={{ color: '#fff' }}>Orders</Button>
                             </Link>
                         )}
-                        {user && (
+                        {loggedIn && (
                             <Link to="/checkout">
                                 <IconButton
                                     style={{
                                         color: 'inherit',
-                                        marginRight: 10,
+                                        marginRight: '10px',
                                     }}
                                     aria-label="cart"
                                     fontSize="small"
@@ -165,12 +164,12 @@ const AppNav = (props) => {
                                 </IconButton>
                             </Link>
                         )}
-                        {!user && (
+                        {!loggedIn && (
                             <Link to="/login">
                                 <Button sx={{ color: '#fff' }}>Login</Button>
                             </Link>
                         )}
-                        {user && (
+                        {loggedIn && (
                             <Link to="/login">
                                 <Button sx={{ color: '#fff' }}>Logout</Button>
                             </Link>

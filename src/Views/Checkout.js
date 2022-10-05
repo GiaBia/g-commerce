@@ -15,9 +15,10 @@ const Checkout = () => {
     const shoppingCart = useSelector((state) => state.shoppingCart)
     const dispatch = useDispatch()
     const navigate = useNavigate()
+    const [isLoading, setIsLoading] = React.useState(true)
 
     useEffect(() => {
-        dispatch(getCart())
+        dispatch(getCart()).then(() => setIsLoading(false))
     }, [dispatch])
 
     const createOrderHandler = async () => {
@@ -32,6 +33,12 @@ const Checkout = () => {
     }, 0)
     const tax = subtotal * 0.06
     const total = subtotal + tax
+
+    if (isLoading) {
+        return <div>Loading...</div>
+    } else if (shoppingCart.length === 0) {
+        return <div>Your shopping cart is empty...</div>
+    }
 
     return (
         <Box
@@ -54,8 +61,8 @@ const Checkout = () => {
 
             <Card
                 sx={{
-                    maxWidth: 500,
-                    minWidth: 350,
+                    maxWidth: '500px',
+                    minWidth: '350px',
                 }}
             >
                 <CardContent>

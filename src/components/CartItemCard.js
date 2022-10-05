@@ -20,15 +20,18 @@ function CartItemCard({ cartItem }) {
     return (
         <Card
             sx={{
-                maxWidth: 500,
-                minWidth: 350,
+                maxWidth: '500px',
+                minWidth: '350px',
             }}
         >
             <CardMedia component="img" image={cartItem.imageUrl} />
-            <CardContent>
+            <CardContent
+                sx={{
+                    paddingBottom: 0,
+                }}
+            >
                 <Box
                     sx={{
-                        display: 'flex',
                         justifyContent: 'space-between',
                         alignItems: 'baseline',
                     }}
@@ -36,11 +39,19 @@ function CartItemCard({ cartItem }) {
                     <Typography gutterBottom variant="h6" component="div">
                         {cartItem.name}
                     </Typography>
-                    <Typography gutterBottom variant="h6" component="div">
-                        Size:{cartItem.size}
+                    <Typography
+                        gutterBottom
+                        variant="subtitle1"
+                        component="div"
+                    >
+                        Size: {cartItem.size}
                     </Typography>
-                    <Typography gutterBottom variant="h6" component="div">
-                        Quantity:{cartItem.quantity}
+                    <Typography
+                        gutterBottom
+                        variant="subtitle1"
+                        component="div"
+                    >
+                        Quantity: {cartItem.quantity}
                     </Typography>
                     <Typography
                         gutterBottom
@@ -51,7 +62,11 @@ function CartItemCard({ cartItem }) {
                     </Typography>
                 </Box>
             </CardContent>
-            <CardActions>
+            <CardActions
+                sx={{
+                    paddingTop: 0,
+                }}
+            >
                 <Box
                     sx={{
                         width: '100%',

@@ -15,14 +15,16 @@ import { CardActionArea } from '@mui/material'
 import { useDispatch } from 'react-redux'
 import { addProductToCart } from '../store/actions/shoppingCart'
 import { useParams, useNavigate, Link } from 'react-router-dom'
+import { useLoggedIn } from '../hooks/userAuth'
+import Tooltip from '@mui/material/Tooltip'
 
 const modalStyles = {
     position: 'absolute',
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    maxWidth: 500,
-    minWidth: 350,
+    maxWidth: '500px',
+    minWidth: '350px',
     bgcolor: 'background.paper',
     boxShadow: 24,
     p: 4,
@@ -33,6 +35,7 @@ export default function ProductCard({ product }) {
     const dispatch = useDispatch()
     const { productId } = useParams()
     const navigate = useNavigate()
+    const loggedIn = useLoggedIn()
 
     const closeModalHandler = () => {
         navigate('/products')
@@ -47,7 +50,7 @@ export default function ProductCard({ product }) {
     return (
         <>
             <Link to={`/products/${product.id}`}>
-                <Card sx={{ maxWidth: 345 }}>
+                <Card sx={{ maxWidth: '345px' }}>
                     <CardActionArea>
                         <CardMedia
                             component="img"
@@ -59,7 +62,7 @@ export default function ProductCard({ product }) {
                                 sx={{
                                     display: 'flex',
                                     justifyContent: 'space-between',
-                                    alignItems: 'baseline',
+                                    alignItems: 'center',
                                 }}
                             >
                                 <Typography
@@ -73,6 +76,7 @@ export default function ProductCard({ product }) {
                                     gutterBottom
                                     variant="subtitle1"
                                     component="div"
+                                    sx={{ marginLeft: '15px' }}
                                 >
                                     ${product.price}
                                 </Typography>
@@ -114,6 +118,8 @@ export default function ProductCard({ product }) {
                     </CardContent>
                     <CardActions>
                         <Box
+                            component="form"
+                            onSubmit={handleAddToCart}
                             sx={{
                                 width: '100%',
                                 display: 'flex',
@@ -121,39 +127,49 @@ export default function ProductCard({ product }) {
                                 alignItems: 'baseline',
                             }}
                         >
-                            <form onSubmit={handleAddToCart}>
-                                <FormControl sx={{ m: 1, minWidth: 80 }}>
-                                    <InputLabel id="size-label">
-                                        Size
-                                    </InputLabel>
-                                    <Select
-                                        required
-                                        value={size}
-                                        onChange={(event) =>
-                                            setSize(event.target.value)
-                                        }
-                                        labelId="size-label"
-                                        id="size-select"
-                                        autoWidth
-                                        label="Size"
+                            <FormControl sx={{ m: 1, minWidth: 80 }}>
+                                <InputLabel id="size-label">Size</InputLabel>
+                                <Select
+                                    required
+                                    value={size}
+                                    onChange={(event) =>
+                                        setSize(event.target.value)
+                                    }
+                                    labelId="size-label"
+                                    id="size-select"
+                                    autoWidth
+                                    label="Size"
+                                >
+                                    {product.inventory.map((item) => {
+                                        return (
+                                            <MenuItem
+                                                key={item.id}
+                                                value={item.id}
+                                            >
+                                                {item.size}
+                                            </MenuItem>
+                                        )
+                                    })}
+                                </Select>
+                            </FormControl>
+                            <Tooltip
+                                title={
+                                    loggedIn
+                                        ? ''
+                                        : 'Please login to add to cart'
+                                }
+                                arrow
+                            >
+                                <Box>
+                                    <Button
+                                        disabled={!loggedIn}
+                                        type="submit"
+                                        size="small"
                                     >
-                                        {product.inventory.map((item) => {
-                                            return (
-                                                <MenuItem
-                                                    key={item.id}
-                                                    value={item.id}
-                                                >
-                                                    {item.size}
-                                                </MenuItem>
-                                            )
-                                        })}
-                                    </Select>
-                                </FormControl>
-
-                                <Button type="submit" size="small">
-                                    Add to Cart
-                                </Button>
-                            </form>
+                                        Add to Cart
+                                    </Button>
+                                </Box>
+                            </Tooltip>
                         </Box>
                     </CardActions>
                 </Card>

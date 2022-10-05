@@ -22,7 +22,7 @@ export default function OrderCard({ order }) {
     }
 
     return (
-        <Card sx={{ maxWidth: 500, minWidth: 300 }}>
+        <Card sx={{ maxWidth: '500px', minWidth: '300px' }}>
             <CardHeader
                 avatar={
                     <Avatar sx={{ bgcolor: blue[500] }} aria-label="recipe">
