@@ -102,7 +102,11 @@ const Checkout = () => {
                     </Typography>
                 </CardContent>
                 <CardActions sx={{ display: 'flex', justifyContent: 'end' }}>
-                    <Button onClick={createOrderHandler} size="small">
+                    <Button
+                        onClick={createOrderHandler}
+                        variant="outlined"
+                        size="small"
+                    >
                         Place Order
                     </Button>
                 </CardActions>

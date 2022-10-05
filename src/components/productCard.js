@@ -164,6 +164,7 @@ export default function ProductCard({ product }) {
                                     <Button
                                         disabled={!loggedIn}
                                         type="submit"
+                                        variant="outlined"
                                         size="small"
                                     >
                                         Add to Cart

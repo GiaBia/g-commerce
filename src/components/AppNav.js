@@ -54,8 +54,8 @@ const AppNav = (props) => {
 
     const drawer = (
         <Box onClick={handleDrawerToggle} sx={{ textAlign: 'center' }}>
-            <Typography variant="h6" sx={{ my: 2 }}>
-                GCommerce
+            <Typography variant="h4" sx={{ my: 2, fontFamily: 'Montez' }}>
+                G Commerce
             </Typography>
             <Divider />
             <List>
@@ -127,22 +127,25 @@ const AppNav = (props) => {
                         <MenuIcon />
                     </IconButton>
                     <Typography
-                        variant="h6"
+                        variant="h4"
                         component="div"
                         sx={{
                             flexGrow: 1,
                             display: { xs: 'none', sm: 'block' },
+                            fontFamily: 'Montez',
                         }}
                     >
-                        GCommerce
+                        G Commerce
                     </Typography>
                     <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
                         <Link to="/products">
-                            <Button sx={{ color: '#fff' }}>Products</Button>
+                            <Button sx={{ color: 'inherit' }}>Products</Button>
                         </Link>
                         {loggedIn && (
                             <Link to="/orders">
-                                <Button sx={{ color: '#fff' }}>Orders</Button>
+                                <Button sx={{ color: 'inherit' }}>
+                                    Orders
+                                </Button>
                             </Link>
                         )}
                         {loggedIn && (
@@ -166,12 +169,14 @@ const AppNav = (props) => {
                         )}
                         {!loggedIn && (
                             <Link to="/login">
-                                <Button sx={{ color: '#fff' }}>Login</Button>
+                                <Button sx={{ color: 'inherit' }}>Login</Button>
                             </Link>
                         )}
                         {loggedIn && (
                             <Link to="/login">
-                                <Button sx={{ color: '#fff' }}>Logout</Button>
+                                <Button sx={{ color: 'inherit' }}>
+                                    Logout
+                                </Button>
                             </Link>
                         )}
                     </Box>

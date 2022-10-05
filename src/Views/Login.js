@@ -106,7 +106,11 @@ const Login = () => {
                     >
                         {isNewUser ? 'Login' : 'Create User'}
                     </Button>
-                    <Button type="submit" variant="contained">
+                    <Button
+                        sx={{ color: '#fff' }}
+                        type="submit"
+                        variant="contained"
+                    >
                         {isNewUser ? 'Create User' : 'Login'}
                     </Button>
                 </Box>
