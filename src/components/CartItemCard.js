@@ -61,7 +61,7 @@ function CartItemCard({ cartItem }) {
                         variant="subtitle1"
                         component="div"
                     >
-                        ${cartItem.price}
+                        ${cartItem.price.toFixed(2)}
                     </Typography>
                 </Box>
             </CardContent>

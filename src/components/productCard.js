@@ -61,7 +61,7 @@ export default function ProductCard({ product }) {
                     />
                     <ImageListItemBar
                         title={product.name}
-                        subtitle={product.price}
+                        subtitle={`$${product.price.toFixed(2)}`}
                     />
                 </ImageListItem>
             </Link>
@@ -97,7 +97,7 @@ export default function ProductCard({ product }) {
                                     variant="subtitle1"
                                     component="div"
                                 >
-                                    ${product.price}
+                                    ${product.price.toFixed(2)}
                                 </Typography>
                             </Box>
                             <Typography variant="body2" color="text.secondary">
